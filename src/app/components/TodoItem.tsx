@@ -1,9 +1,11 @@
+// app/components/TodoItem.tsx
 'use client'
 
 import { useState } from 'react'
 import  supabase  from '../lib/config/supabaseclient'
 import { motion } from 'framer-motion'
-import { FiCheck, FiTrash2, FiEdit, FiCircle } from 'react-icons/fi'
+import { FiCheck, FiTrash2, FiEdit, FiCircle, FiFlag, FiClock, FiCheckCircle } from 'react-icons/fi'
+import DeleteConfirmation from './DeleteConfirmation'
 
 interface Todo {
   id: string
@@ -11,29 +13,33 @@ interface Todo {
   description: string | null
   is_complete: boolean
   inserted_at: string
+  priority: 'low' | 'medium' | 'high'
+  status: 'pending' | 'in-progress' | 'completed'
 }
 
 interface TodoItemProps {
   todo: Todo
+  onEdit: (todo: Todo) => void
 }
 
-export default function TodoItem({ todo }: TodoItemProps) {
-  const [isEditing, setIsEditing] = useState(false)
-  const [title, setTitle] = useState(todo.title)
-  const [description, setDescription] = useState(todo.description || '')
-  const [isComplete, setIsComplete] = useState(todo.is_complete)
+export default function TodoItem({ todo, onEdit }: TodoItemProps) {
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleToggleComplete = async () => {
     setIsLoading(true)
     try {
+      const newStatus = todo.status === 'completed' ? 'pending' : 'completed'
+      
       const { error } = await supabase
         .from('todos')
-        .update({ is_complete: !isComplete })
+        .update({ 
+          status: newStatus,
+          updated_at: new Date().toISOString()
+        })
         .eq('id', todo.id)
 
       if (error) throw error
-      setIsComplete(!isComplete)
     } catch (error) {
       console.error('Error updating todo:', error)
     } finally {
@@ -50,6 +56,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
         .eq('id', todo.id)
 
       if (error) throw error
+      setIsDeleteConfirmOpen(false)
     } catch (error) {
       console.error('Error deleting todo:', error)
     } finally {
@@ -57,89 +64,89 @@ export default function TodoItem({ todo }: TodoItemProps) {
     }
   }
 
-  const handleUpdate = async () => {
-    setIsLoading(true)
-    try {
-      const { error } = await supabase
-        .from('todos')
-        .update({ title, description: description || null })
-        .eq('id', todo.id)
+  const getPriorityColor = () => {
+    switch (todo.priority) {
+      case 'high': return 'text-red-500'
+      case 'medium': return 'text-yellow-500'
+      case 'low': return 'text-green-500'
+      default: return 'text-gray-400'
+    }
+  }
 
-      if (error) throw error
-      setIsEditing(false)
-    } catch (error) {
-      console.error('Error updating todo:', error)
-    } finally {
-      setIsLoading(false)
+  const getStatusIcon = () => {
+    switch (todo.status) {
+      case 'pending': return <FiCircle className="text-gray-400" />
+      case 'in-progress': return <FiClock className="text-blue-500" />
+      case 'completed': return <FiCheckCircle className="text-green-500" />
+      default: return <FiCircle className="text-gray-400" />
+    }
+  }
+
+  const getStatusText = () => {
+    switch (todo.status) {
+      case 'pending': return 'Pending'
+      case 'in-progress': return 'In Progress'
+      case 'completed': return 'Completed'
+      default: return 'Pending'
     }
   }
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.01 }}
-      className="bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow border border-white/20"
-    >
-      {isEditing ? (
-        <div className="space-y-3">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Task title"
-          />
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Description (optional)"
-            rows={3}
-          />
-          <div className="flex justify-end gap-2">
-            <button
-              onClick={() => setIsEditing(false)}
-              className="px-3 py-1 text-gray-600 hover:text-gray-800"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleUpdate}
-              disabled={isLoading || !title.trim()}
-              className="px-3 py-1 bg-blue-500 text-white rounded-lg disabled:opacity-50"
-            >
-              {isLoading ? 'Saving...' : 'Save'}
-            </button>
-          </div>
-        </div>
-      ) : (
+    <>
+      <motion.div
+        whileHover={{ scale: 1.01 }}
+        className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 shadow border border-white/20"
+      >
         <div className="flex items-start gap-4">
           <button
             onClick={handleToggleComplete}
             disabled={isLoading}
-            className={`mt-1 p-1 rounded-full ${isComplete ? 'text-green-500 bg-green-50' : 'text-gray-400 hover:text-gray-600'}`}
+            className={`mt-1 p-2 rounded-full transition-colors ${
+              todo.status === 'completed' 
+                ? 'bg-green-100 text-green-500' 
+                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+            }`}
           >
-            {isComplete ? <FiCheck size={20} /> : <FiCircle size={20} />}
+            {todo.status === 'completed' ? <FiCheck size={18} /> : <FiCircle size={18} />}
           </button>
           
           <div className="flex-1">
-            <h3 className={`text-lg font-medium ${isComplete ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+            <div className="flex items-center gap-2 mb-1">
+              <FiFlag className={`${getPriorityColor()} text-sm`} />
+              <span className={`text-xs font-medium px-2 py-1 rounded-full ${getPriorityColor()} bg-opacity-20`}>
+                {todo.priority.charAt(0).toUpperCase() + todo.priority.slice(1)}
+              </span>
+              <span className="text-xs text-gray-500 flex items-center gap-1">
+                {getStatusIcon()}
+                {getStatusText()}
+              </span>
+            </div>
+            
+            <h3 className={`text-lg font-medium ${todo.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-800'}`}>
               {todo.title}
             </h3>
+            
             {todo.description && (
-              <p className="text-gray-600 mt-1">{todo.description}</p>
+              <p className="text-gray-600 mt-2">{todo.description}</p>
             )}
+            
+            <div className="flex items-center gap-2 mt-3 text-xs text-gray-500">
+              <span>
+                {new Date(todo.inserted_at).toLocaleDateString()}
+              </span>
+            </div>
           </div>
           
           <div className="flex gap-2">
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={() => onEdit(todo)}
               disabled={isLoading}
               className="p-2 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
             >
               <FiEdit size={18} />
             </button>
             <button
-              onClick={handleDelete}
+              onClick={() => setIsDeleteConfirmOpen(true)}
               disabled={isLoading}
               className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
             >
@@ -147,7 +154,14 @@ export default function TodoItem({ todo }: TodoItemProps) {
             </button>
           </div>
         </div>
-      )}
-    </motion.div>
+      </motion.div>
+
+      <DeleteConfirmation
+        isOpen={isDeleteConfirmOpen}
+        onClose={() => setIsDeleteConfirmOpen(false)}
+        onConfirm={handleDelete}
+        title={todo.title}
+      />
+    </>
   )
 }

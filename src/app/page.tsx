@@ -1,3 +1,4 @@
+// Update the main page component to include the editing functionality
 'use client'
 
 import { useEffect, useState, Suspense } from 'react'
@@ -6,12 +7,13 @@ import TodoList from './components/TodoList'
 import TodoForm from './components/TodoForm'
 import AuthForm from './components/AuthForm'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiPlus, FiRefreshCw, FiUser, FiLogOut } from 'react-icons/fi'
+import { FiPlus, FiRefreshCw, FiUser, FiLogOut,} from 'react-icons/fi'
 import Image from 'next/image'
 
 export default function HomePage() {
   const [user, setUser] = useState<any>(null)
   const [showForm, setShowForm] = useState(false)
+  const [editingTodo, setEditingTodo] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [authView, setAuthView] = useState<'login' | 'signup' | null>(null)
 
@@ -40,6 +42,16 @@ export default function HomePage() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
+  }
+
+  const handleEditTodo = (todo: any) => {
+    setEditingTodo(todo)
+    setShowForm(true)
+  }
+
+  const handleFormSuccess = () => {
+    setShowForm(false)
+    setEditingTodo(null)
   }
 
   if (loading) {
@@ -139,36 +151,41 @@ export default function HomePage() {
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setShowForm(!showForm)}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                onClick={() => setShowForm(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-200 shadow-md hover:shadow-lg"
               >
                 <FiPlus />
                 Add Task
               </motion.button>
             </div>
 
-            {showForm && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="mb-8"
-              >
-                <TodoForm onSuccess={() => setShowForm(false)} />
-              </motion.div>
-            )}
+            <AnimatePresence>
+              {(showForm || editingTodo) && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mb-8"
+                >
+                  <TodoForm 
+                    onSuccess={handleFormSuccess} 
+                    editingTodo={editingTodo}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <Suspense fallback={
               <div className="space-y-4">
                 {[...Array(3)].map((_, i) => (
-                  <div key={i} className="bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow animate-pulse">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div key={i} className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 shadow border border-white/20 animate-pulse">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
                     <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                   </div>
                 ))}
               </div>
             }>
-              <TodoList />
+              <TodoList onEdit={handleEditTodo} />
             </Suspense>
           </div>
         ) : (
@@ -197,13 +214,13 @@ export default function HomePage() {
               <div className="flex gap-4 justify-center">
                 <button
                   onClick={() => setAuthView('login')}
-                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                  className="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => setAuthView('signup')}
-                  className="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   Sign Up
                 </button>

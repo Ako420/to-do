@@ -1,10 +1,11 @@
+
 'use client'
 
 import { useEffect, useState } from 'react'
 import  supabase  from '../lib/config/supabaseclient'
 import TodoItem from './TodoItem'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiInbox } from 'react-icons/fi'
+import { FiInbox, FiFilter } from 'react-icons/fi'
 
 interface Todo {
   id: string
@@ -12,11 +13,18 @@ interface Todo {
   description: string | null
   is_complete: boolean
   inserted_at: string
+  priority: 'low' | 'medium' | 'high'
+  status: 'pending' | 'in-progress' | 'completed'
 }
 
-export default function TodoList() {
+interface TodoListProps {
+  onEdit: (todo: Todo) => void
+}
+
+export default function TodoList({ onEdit }: TodoListProps) {
   const [todos, setTodos] = useState<Todo[]>([])
   const [loading, setLoading] = useState(true)
+  const [filter, setFilter] = useState<'all' | 'pending' | 'in-progress' | 'completed'>('all')
 
   useEffect(() => {
     fetchTodos()
@@ -67,12 +75,17 @@ export default function TodoList() {
     }
   }
 
+  const filteredTodos = todos.filter(todo => {
+    if (filter === 'all') return true
+    return todo.status === filter
+  })
+
   if (loading) {
     return (
       <div className="space-y-4">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div key={i} className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 shadow border border-white/20 animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
             <div className="h-3 bg-gray-200 rounded w-1/2"></div>
           </div>
         ))}
@@ -95,20 +108,51 @@ export default function TodoList() {
   }
 
   return (
-    <div className="space-y-4">
-      <AnimatePresence>
-        {todos.map((todo) => (
-          <motion.div
-            key={todo.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
+    <div>
+      {/* Filter controls */}
+      <div className="flex items-center gap-2 mb-6">
+        <FiFilter className="text-gray-500" />
+        <span className="text-sm text-gray-600 mr-2">Filter:</span>
+        {(['all', 'pending', 'in-progress', 'completed'] as const).map((option) => (
+          <button
+            key={option}
+            onClick={() => setFilter(option)}
+            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+              filter === option
+                ? 'bg-blue-100 text-blue-700'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
           >
-            <TodoItem todo={todo} />
-          </motion.div>
+            {option.charAt(0).toUpperCase() + option.slice(1)}
+          </button>
         ))}
-      </AnimatePresence>
+      </div>
+
+      <div className="space-y-4">
+        <AnimatePresence>
+          {filteredTodos.map((todo) => (
+            <motion.div
+              key={todo.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <TodoItem todo={todo} onEdit={onEdit} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+
+        {filteredTodos.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-8 text-gray-500"
+          >
+            No {filter !== 'all' ? filter : ''} tasks found.
+          </motion.div>
+        )}
+      </div>
     </div>
   )
 }
