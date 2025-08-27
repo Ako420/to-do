@@ -98,7 +98,7 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-lg border border-white/20 backdrop-blur-sm relative"
+      className="max-w-md w-full space-y-8 bg-white dark:bg-black p-8 rounded-2xl shadow-lg border border-white/20 backdrop-blur-sm relative"
     >
       <button
         onClick={onSuccess}
@@ -116,10 +116,10 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
             className="object-contain"
           />
         </div>
-        <h2 className="mt-6 text-3xl font-bold text-gray-900">
+        <h2 className="mt-6 text-3xl font-bold dark:text-white/90 text-gray-900">
           {isLogin ? 'Welcome back' : 'Create an account'}
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm dark:text-gray-400 text-gray-600">
           {isLogin ? 'Sign in to your account to continue' : 'Sign up to get started'}
         </p>
       </div>
@@ -139,17 +139,17 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
         <form className="mt-8 space-y-6" onSubmit={loginForm.handleSubmit(onLoginSubmit)}>
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm dark:text-white font-medium text-gray-700">
                 Email address
               </label>
               <div className="mt-1 relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiMail className="h-5 w-5 text-gray-400" />
+                  <FiMail className="h-5 w-5 text-gray-400 " />
                 </div>
                 <input
                   {...loginForm.register('email')}
                   type="email"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border text-black/70 dark:text-white  border-gray-300 rounded-lg  placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="you@example.com"
                 />
               </div>
@@ -159,7 +159,7 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm dark:text-white font-medium text-gray-700">
                 Password
               </label>
               <div className="mt-1 relative">
@@ -169,7 +169,7 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
                 <input
                   {...loginForm.register('password')}
                   type="password"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border text-black/70 dark:text-white border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="••••••••"
                 />
               </div>
@@ -203,10 +203,10 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
           </div>
         </form>
       ) : (
-        <form className="mt-8 space-y-6" onSubmit={signupForm.handleSubmit(onSignupSubmit)}>
+        <form className="mt-8 space-y-6 dark:text-white" onSubmit={signupForm.handleSubmit(onSignupSubmit)}>
           <div className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="block text-sm font-medium dark:text-white text-gray-700">
                 Full Name
               </label>
               <div className="mt-1 relative">
@@ -216,7 +216,7 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
                 <input
                   {...signupForm.register('name')}
                   type="text"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 text-black/70 border dark:text-white border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="Your Name"
                 />
               </div>
@@ -226,17 +226,17 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium  dark:text-white text-gray-700">
                 Email address
               </label>
               <div className="mt-1 relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex dark:text-white items-center pointer-events-none">
                   <FiMail className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   {...signupForm.register('email')}
                   type="email"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 text-black/70 dark:text-white py-2 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="you@example.com"
                 />
               </div>
@@ -246,7 +246,7 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block dark:text-white text-sm font-medium text-gray-700">
                 Password
               </label>
               <div className="mt-1 relative">
@@ -256,7 +256,7 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
                 <input
                   {...signupForm.register('password')}
                   type="password"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 text-black/70 dark:text-white py-2 border border-gray-300 rounded-lg  placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="••••••••"
                 />
               </div>

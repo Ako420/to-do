@@ -101,8 +101,8 @@ export default function TodoList({ onEdit }: TodoListProps) {
         className="flex flex-col items-center justify-center py-12 text-center"
       >
         <FiInbox className="text-4xl text-gray-400 mb-4" />
-        <h3 className="text-lg font-medium text-gray-700 mb-2">No tasks yet</h3>
-        <p className="text-gray-500">Get started by creating your first task!</p>
+        <h3 className="text-lg font-medium dark:text-white text-gray-700 mb-2">No tasks yet</h3>
+        <p className="text-gray-500 dark:text-white">Get started by creating your first task!</p>
       </motion.div>
     )
   }
@@ -147,7 +147,7 @@ export default function TodoList({ onEdit }: TodoListProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-8 text-gray-500"
+            className="text-center py-8 dark:text-white text-gray-500"
           >
             No {filter !== 'all' ? filter : ''} tasks found.
           </motion.div>

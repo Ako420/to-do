@@ -8,6 +8,7 @@ import AuthForm from './components/AuthForm'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiPlus, FiRefreshCw, FiUser, FiLogOut,} from 'react-icons/fi'
 import Image from 'next/image'
+import ThemeToggle from './components/ThemeToggle'
 
 export default function HomePage() {
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -64,9 +65,9 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-100">
+    <div className=" dark:bg-gradient-to-br dark:from-black/25 dark:to-black  min-h-screen bg-gradient-to-br from-purple-50 to-blue-100">
       {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-sm border-b border-white/20 shadow-sm">
+      <nav className="bg-white/80 dark:bg-black dark:text-white/80 backdrop-blur-sm border-b border-white/20 shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
@@ -78,13 +79,14 @@ export default function HomePage() {
                   className="object-contain"
                 />
               </div>
-              <span className="text-xl font-bold text-gray-800">TodoApp</span>
+              <span className="text-xl hidden md:block font-bold dark:text-white/80 text-gray-800">TodoApp</span>
             </div>
 
             <div className="flex items-center gap-4">
+              {/* <ThemeToggle /> */}
               {user ? (
                 <>
-                  <div className="flex items-center gap-2 text-gray-700">
+                  <div className="flex items-center gap-2 dark:text-white/50 text-gray-700">
                     <FiUser className="text-lg" />
                     <span className="hidden sm:inline">{user.email}</span>
                   </div>
@@ -143,7 +145,7 @@ export default function HomePage() {
               <motion.h1
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-bold text-gray-800"
+                className="text-3xl font-bold dark:text-white text-gray-800"
               >
                 My Tasks
               </motion.h1>
@@ -206,10 +208,10 @@ export default function HomePage() {
                   className="object-contain"
                 />
               </div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-4">
+              <h1 className="text-3xl font-bold dark:text-white text-gray-800 mb-4">
                 Welcome to Todo App
               </h1>
-              <p className="text-gray-600 mb-8">
+              <p className="text-gray-600 dark:text-white/60 mb-8">
                 Please sign in or create an account to start managing your tasks
               </p>
               <div className="flex gap-4 justify-center">

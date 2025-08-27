@@ -115,10 +115,10 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20"
+      className="bg-white/80 dark:bg-black backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20"
     >
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">
+        <h2 className="text-xl font-semibold  dark:text-white text-gray-800">
           {editingTodo ? 'Edit Task' : 'Add New Task'}
         </h2>
         <button
@@ -137,13 +137,13 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="title" className="block text-sm dark:text-white font-medium text-gray-700 mb-1">
             Title *
           </label>
           <input
             {...register('title')}
             type="text"
-            className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border text-black/10 dark:text-white border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="What needs to be done?"
           />
           {errors.title && (
@@ -152,13 +152,13 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="description" className="block text-sm  dark:text-white font-medium text-gray-700 mb-1">
             Description
           </label>
           <textarea
             {...register('description')}
             rows={3}
-            className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border text-black/15 dark:text-white border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Add details (optional)"
           />
           {errors.description && (
@@ -168,7 +168,7 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium dark:text-white text-gray-700 mb-1">
               Priority
             </label>
             <div className="flex gap-2">
@@ -195,7 +195,7 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium  dark:text-white text-gray-700 mb-1">
               Status
             </label>
             <div className="flex gap-2">

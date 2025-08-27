@@ -95,7 +95,7 @@ export default function TodoItem({ todo, onEdit }: TodoItemProps) {
     <>
       <motion.div
         whileHover={{ scale: 1.01 }}
-        className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 shadow border border-white/20"
+        className="bg-white/70  dark:bg-black backdrop-blur-sm rounded-2xl p-5 shadow border border-white/20"
       >
         <div className="flex items-start gap-4">
           <button
@@ -122,15 +122,15 @@ export default function TodoItem({ todo, onEdit }: TodoItemProps) {
               </span>
             </div>
             
-            <h3 className={`text-lg font-medium ${todo.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+            <h3 className={`text-lg font-medium ${todo.status === 'completed' ? 'line-through text-gray-500 dark:text-white/60' : 'text-gray-800 dark:text-white'}`}>
               {todo.title}
             </h3>
             
             {todo.description && (
-              <p className="text-gray-600 mt-2">{todo.description}</p>
+              <p className="text-gray-600  dark:text-whhite/60 mt-2 dark:text-white">{todo.description}</p>
             )}
             
-            <div className="flex items-center gap-2 mt-3 text-xs text-gray-500">
+            <div className="flex items-center gap-2 mt-3 text-xs dark:text-white text-gray-500">
               <span>
                 {new Date(todo.inserted_at).toLocaleDateString()}
               </span>
