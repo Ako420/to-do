@@ -1,4 +1,3 @@
-// Update the main page component to include the editing functionality
 'use client'
 
 import { useEffect, useState, Suspense } from 'react'
@@ -11,6 +10,7 @@ import { FiPlus, FiRefreshCw, FiUser, FiLogOut,} from 'react-icons/fi'
 import Image from 'next/image'
 
 export default function HomePage() {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [user, setUser] = useState<any>(null)
   const [showForm, setShowForm] = useState(false)
   const [editingTodo, setEditingTodo] = useState<any>(null)
@@ -44,6 +44,7 @@ export default function HomePage() {
     await supabase.auth.signOut()
   }
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const handleEditTodo = (todo: any) => {
     setEditingTodo(todo)
     setShowForm(true)

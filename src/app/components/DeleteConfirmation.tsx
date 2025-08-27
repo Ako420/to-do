@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FiAlertTriangle, FiX, FiCheck } from 'react-icons/fi'
+import { FiAlertTriangle, FiCheck } from 'react-icons/fi'
+
 
 interface DeleteConfirmationProps {
   isOpen: boolean
@@ -38,7 +39,7 @@ export default function DeleteConfirmation({
         </div>
         
         <p className="text-gray-600 mb-6">
-          Are you sure you want to delete <span className="font-medium">"{title}"</span>? This action cannot be undone.
+          Are you sure you want to delete <span className="font-medium">&qout;{title}&quot;</span>? This action cannot be undone.
         </p>
         
         <div className="flex gap-3 justify-end">

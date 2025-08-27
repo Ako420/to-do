@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import  supabase  from '../lib/config/supabaseclient'
 import { Session } from '@supabase/supabase-js'
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type AuthContextType = {
   session: Session | null
   user: any

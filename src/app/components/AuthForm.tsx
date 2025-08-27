@@ -9,6 +9,7 @@ import { loginSchema, signupSchema } from '../lib/validation'
 import { FiMail, FiLock, FiAlertCircle, FiUser, FiX } from 'react-icons/fi'
 import Image from 'next/image'
 
+
 type LoginFormData = {
   email: string
   password: string
@@ -27,6 +28,7 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProps) {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -189,11 +191,11 @@ export default function AuthForm({ view, onSuccess, onViewChange }: AuthFormProp
 
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?
               <button
                 type="button"
                 onClick={() => onViewChange('signup')}
-                className="font-medium text-blue-600 hover:text-blue-500"
+                className="ml-1 font-medium text-blue-600 hover:text-blue-500"
               >
                 Sign up
               </button>

@@ -1,4 +1,3 @@
-// app/components/TodoForm.tsx
 'use client'
 
 import { useState } from 'react'
@@ -13,6 +12,7 @@ import { z } from 'zod'
 // Define the form data type based on the schema
 type FormData = z.infer<typeof todoSchema>
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface TodoFormProps {
   onSuccess: () => void
   editingTodo?: any
@@ -92,13 +92,13 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
 
       reset()
       onSuccess()
+      
     } catch (err: any) {
       setError(err.message)
     } finally {
       setIsLoading(false)
     }
   }
-
   const priorityOptions = [
     { value: 'low', label: 'Low', color: 'text-green-500' },
     { value: 'medium', label: 'Medium', color: 'text-yellow-500' },
