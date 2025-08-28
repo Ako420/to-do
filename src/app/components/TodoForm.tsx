@@ -165,7 +165,7 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 auto-rows-auto gap-4">
           <div>
             <label className="block text-sm font-medium dark:text-white text-gray-700 mb-1">
               Priority
@@ -178,7 +178,7 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
                   onClick={() => setValue('priority', option.value as any)}
                   className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     currentPriority === option.value
-                      ? 'bg-blue-100 text-blue-700'
+                      ? 'bg-blue-100 text-blue-700 '
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -197,7 +197,7 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
             <label className="block text-sm font-medium  dark:text-white text-gray-700 mb-1">
               Status
             </label>
-            <div className="flex gap-2">
+            <div className="flex  gap-2">
               {statusOptions.map((option) => {
                 const Icon = option.icon
                 return (
@@ -207,11 +207,11 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
                     onClick={() => setValue('status', option.value as any)}
                     className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       currentStatus === option.value
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        ? 'bg-blue-100 text-blue-700 '
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200 '
                     }`}
                   >
-                    <Icon size={14} />
+                    <Icon size={14} className='hidden md:block'/>
                     {option.label}
                   </button>
                 )
@@ -235,7 +235,7 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
           <button
             type="submit"
             disabled={isLoading}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 transition-all duration-200 shadow-md hover:shadow-lg"
+            className="px-4 py-2 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-500 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 transition-all duration-200 shadow-md hover:shadow-lg"
           >
             {isLoading ? 'Saving...' : editingTodo ? 'Update Task' : 'Add Task'}
           </button>
