@@ -89,7 +89,6 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
 
         if (error) throw error
       }
-
       reset()
       onSuccess()
       
@@ -143,7 +142,7 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
           <input
             {...register('title')}
             type="text"
-            className="w-full px-4 py-2 border text-black/10 dark:text-white border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border text-black/70 dark:text-white border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="What needs to be done?"
           />
           {errors.title && (
@@ -158,7 +157,7 @@ export default function TodoForm({ onSuccess, editingTodo }: TodoFormProps) {
           <textarea
             {...register('description')}
             rows={3}
-            className="w-full px-4 py-2 border text-black/15 dark:text-white border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border text-black/70 dark:text-white border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Add details (optional)"
           />
           {errors.description && (

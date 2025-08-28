@@ -27,7 +27,7 @@ export default function HomePage() {
     getUser()
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event,session) => {
         setUser(session?.user ?? null)
         setLoading(false)
         if (session?.user) {
